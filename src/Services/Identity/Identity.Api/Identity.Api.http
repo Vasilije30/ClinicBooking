@@ -1,12 +1,12 @@
 @host = http://localhost:5106
 
-POST {{host}}/api/auth/login
+POST {{host}}/api/auth/register
 Content-Type: application/json
 
 {
-    "email": "pacijent@test.com",
-    "password": "Test123!"
+    "email": "vasilijev185@gmail.com",
+    "password": "Test123!",
+    "firstName" : "Admin",
+    "lastName" : "Test"
 }
 ###
-GET http://localhost:5106/api/auth/me
-Authorization: Bearer eyJhbGciOiJIUzI1NisInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExOWRkYy01M2Q4LTc5NjItOThjZi04ODZjY2NlMTFkYzciLCJlbWFpbCI6InBhY2lqZW50QHRlc3QuY29tIiwianRpIjoiZTk2NGVmOTgtMjQwNC00NzA5LWI4YTAtYWRhMWU0ZmY5YTM5IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiUGF0aWVudCIsImV4cCI6MTc5MzcxMzYwNCwiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.O3rdGq5n5ThIVdPEF513inzOmfA1s-MWGNqJCyzzrWo

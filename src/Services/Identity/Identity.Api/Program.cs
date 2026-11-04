@@ -41,12 +41,10 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
-Console.WriteLine(">>>SEEDER START");
 using (var scope = app.Services.CreateScope())
 {
     await RoleSeeder.SeedAsync(scope.ServiceProvider);
 }
-Console.WriteLine(">>>>SEEDER FFINISH");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

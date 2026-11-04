@@ -1,0 +1,28 @@
+@host = http://localhost:5128
+
+GET {{host}}/api/specialties
+
+###
+
+POST {{host}}/api/specialties
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhNy1jMDcyLTdkNzUtYjc3NC04MmFmYjliZWNkMTciLCJlbWFpbCI6InZhc2lsaWpldjE4NUBnbWFpbC5jb20iLCJqdGkiOiI1ZTJhMTliZi0zMTkwLTRjMTQtYTA1MS05OGM1MWI5ZGFiZDUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiUGF0aWVudCIsIkFkbWluIl0sImV4cCI6MTc5MzgwMjAxMywiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.oVayD7pbdpBlAtrA_IQKQArqNXM_RcotI6aCI48e80c
+Content-Type: application/json
+{
+    "name":"Pulmologija",
+    "description":"Bolesti pluca"
+}
+
+###
+
+PUT {{host}}/api/specialties/01a1a6ba-98ff-7fda-ac7b-1436595e3873
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhNy1jMDcyLTdkNzUtYjc3NC04MmFmYjliZWNkMTciLCJlbWFpbCI6InZhc2lsaWpldjE4NUBnbWFpbC5jb20iLCJqdGkiOiI1ZTJhMTliZi0zMTkwLTRjMTQtYTA1MS05OGM1MWI5ZGFiZDUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiUGF0aWVudCIsIkFkbWluIl0sImV4cCI6MTc5MzgwMjAxMywiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.oVayD7pbdpBlAtrA_IQKQArqNXM_RcotI6aCI48e80c
+Content-Type: application/json
+
+{
+    "name":"Kardiologija",
+    "description":"novi opis"
+}
+
+###
+DELETE {{host}}/api/specialties/01a1a6bd-8a74-702a-ba38-3ecce93dd528
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhNy1jMDcyLTdkNzUtYjc3NC04MmFmYjliZWNkMTciLCJlbWFpbCI6InZhc2lsaWpldjE4NUBnbWFpbC5jb20iLCJqdGkiOiI1ZTJhMTliZi0zMTkwLTRjMTQtYTA1MS05OGM1MWI5ZGFiZDUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiUGF0aWVudCIsIkFkbWluIl0sImV4cCI6MTc5MzgwMjAxMywiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.oVayD7pbdpBlAtrA_IQKQArqNXM_RcotI6aCI48e80c

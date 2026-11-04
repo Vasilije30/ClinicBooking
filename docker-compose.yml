@@ -10,6 +10,18 @@ services:
       - "5433:5432"
     volumes:
       - identity-data:/var/lib/postgresql/data
+  
+  directory-db:
+    image: postgres:16
+    container_name: directory-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: directory
+    ports:
+      - "5434:5432"
+    volumes:
+      - directory-data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
@@ -21,5 +33,6 @@ services:
 
 volumes:
   identity-data:
+  directory-data:
   
     

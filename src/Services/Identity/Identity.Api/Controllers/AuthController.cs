@@ -42,19 +42,5 @@ namespace Identity.Api.Controllers
 
             return Ok(new {token});
         }
-
-        [Authorize]
-        [HttpGet("me")]
-        public IActionResult Me()
-        {
-            return Ok(User.Claims.Select(c => new { c.Type, c.Value }));
-        }
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet("admin-only")]
-        public IActionResult AdminOnly()
-        {
-            return Ok("Samo admin vidi ovo.");
-        }
     }
 }
