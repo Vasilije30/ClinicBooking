@@ -12,7 +12,7 @@
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
 
-        public Guid SpeciltyId { get; set; }
+        public Guid SpecialtyId { get; set; }
         public Specialty Specialty { get; set; } = null!;
     }
 }

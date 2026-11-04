@@ -81,7 +81,7 @@ namespace Directory.Api.Controllers
             var specialty = await db.Specialties.FindAsync(id);
             if(specialty is null) return NotFound();
 
-            var inUse = await db.Doctors.AnyAsync(d => d.SpeciltyId == id)
+            var inUse = await db.Doctors.AnyAsync(d => d.SpecialtyId == id)
                     || await db.ExaminationTypes.AnyAsync(t => t.SpecialtyId == id);
 
             if (inUse)

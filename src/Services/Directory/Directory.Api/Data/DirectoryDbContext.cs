@@ -28,7 +28,7 @@ namespace Directory.Api.Data
 
                 e.HasOne(x => x.Specialty)
                     .WithMany(s => s.Doctors)
-                    .HasForeignKey(x => x.SpeciltyId)
+                    .HasForeignKey(x => x.SpecialtyId)
                     .OnDelete(DeleteBehavior.Restrict);
             });
 
