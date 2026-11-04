@@ -35,12 +35,12 @@ namespace Directory.Api.Data
             modelBuilder.Entity<ExaminationType>(e =>
             {
                 e.Property(x => x.Name).IsRequired().HasMaxLength(150);
-                e.Property(x => x.Desctiption).HasMaxLength(500);
+                e.Property(x => x.Description).HasMaxLength(500);
                 e.Property(x => x.Price).HasPrecision(10, 2);
 
                 e.HasOne(x => x.Specialty)
                     .WithMany(s => s.ExaminationTypes)
-                    .HasForeignKey(x => x.SpecilatyId)
+                    .HasForeignKey(x => x.SpecialtyId)
                 .OnDelete(DeleteBehavior.Restrict);
             });
         }

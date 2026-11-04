@@ -82,7 +82,7 @@ namespace Directory.Api.Controllers
             if(specialty is null) return NotFound();
 
             var inUse = await db.Doctors.AnyAsync(d => d.SpeciltyId == id)
-                    || await db.ExaminationTypes.AnyAsync(t => t.SpecilatyId == id);
+                    || await db.ExaminationTypes.AnyAsync(t => t.SpecialtyId == id);
 
             if (inUse)
                 return Conflict(new { message = "Specijalnost se koristi i ne moze biti obrisana." });
