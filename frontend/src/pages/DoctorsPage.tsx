@@ -29,4 +29,4 @@ export default function DoctorsPage() {
             </ul>
         </div>
     );
-}   
+}
