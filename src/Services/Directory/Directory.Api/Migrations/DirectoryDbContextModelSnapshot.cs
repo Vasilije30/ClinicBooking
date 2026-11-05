@@ -48,7 +48,7 @@ namespace Directory.Api.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<Guid>("SpeciltyId")
+                    b.Property<Guid>("SpecialtyId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Title")
@@ -61,7 +61,7 @@ namespace Directory.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SpeciltyId");
+                    b.HasIndex("SpecialtyId");
 
                     b.HasIndex("UserId")
                         .IsUnique();
@@ -75,7 +75,7 @@ namespace Directory.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Desctiption")
+                    b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
@@ -94,12 +94,12 @@ namespace Directory.Api.Migrations
                         .HasPrecision(10, 2)
                         .HasColumnType("numeric(10,2)");
 
-                    b.Property<Guid>("SpecilatyId")
+                    b.Property<Guid>("SpecialtyId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SpecilatyId");
+                    b.HasIndex("SpecialtyId");
 
                     b.ToTable("ExaminationTypes");
                 });
@@ -131,7 +131,7 @@ namespace Directory.Api.Migrations
                 {
                     b.HasOne("Directory.Api.Models.Specialty", "Specialty")
                         .WithMany("Doctors")
-                        .HasForeignKey("SpeciltyId")
+                        .HasForeignKey("SpecialtyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -142,7 +142,7 @@ namespace Directory.Api.Migrations
                 {
                     b.HasOne("Directory.Api.Models.Specialty", "Specialty")
                         .WithMany("ExaminationTypes")
-                        .HasForeignKey("SpecilatyId")
+                        .HasForeignKey("SpecialtyId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

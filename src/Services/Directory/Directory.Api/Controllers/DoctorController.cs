@@ -56,8 +56,8 @@ namespace Directory.Api.Controllers
             var specialtyExists = await db.Specialties.AnyAsync(s => s.Id == request.SpecialtyId);
             if (!specialtyExists) return BadRequest(new { message = "Specijalizacija ne postoji." });
 
-            var userTaken = await db.Doctors.AnyAsync(d => d.Id == request.UserId);
-            if (!userTaken) return Conflict(new { message = "Doktor vec postoji" });
+            var userTaken = await db.Doctors.AnyAsync(d => d.UserId == request.UserId);
+            if (userTaken) return Conflict(new { message = "Doktor vec postojii" });
 
             var doctor = new Doctor
             {

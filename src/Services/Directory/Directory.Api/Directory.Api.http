@@ -1,15 +1,19 @@
-@host = http://localhost:5128
+@host = http://localhost:5107
 
 GET {{host}}/api/specialties
 
 ###
 
-POST {{host}}/api/specialties
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhNy1jMDcyLTdkNzUtYjc3NC04MmFmYjliZWNkMTciLCJlbWFpbCI6InZhc2lsaWpldjE4NUBnbWFpbC5jb20iLCJqdGkiOiI1ZTJhMTliZi0zMTkwLTRjMTQtYTA1MS05OGM1MWI5ZGFiZDUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiUGF0aWVudCIsIkFkbWluIl0sImV4cCI6MTc5MzgwMjAxMywiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.oVayD7pbdpBlAtrA_IQKQArqNXM_RcotI6aCI48e80c
+POST {{host}}/api/doctors
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhNy1jMDcyLTdkNzUtYjc3NC04MmFmYjliZWNkMTciLCJlbWFpbCI6InZhc2lsaWpldjE4NUBnbWFpbC5jb20iLCJqdGkiOiJjMjI2NGFhOC1iMzc5LTQ3NTEtOTA2ZC04MjQxMGZmNTdhNGMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiUGF0aWVudCIsIkFkbWluIl0sImV4cCI6MTc5Mzg4MTIyMCwiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.NKmimPclFtDboe41tKOQgDxbvflGLOQPmL87aJ6-20Y
 Content-Type: application/json
 {
-    "name":"Pulmologija",
-    "description":"Bolesti pluca"
+    "userId": "01a19ddc-53d8-7962-98cf-886ccce11dc7",
+    "firstName":"Nikola",
+    "lastName":"Tesla",
+    "title" : "dr" ,
+    "biography": "Zapravo je pametan",
+    "specialtyId": "01a1ab71-dc19-78e1-8c2d-9db68017c28b"
 }
 
 ###
