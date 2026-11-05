@@ -38,7 +38,7 @@ namespace Directory.Api.Controllers
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<DoctorDetailsResponse>> GetById(Guid id)
         {
-            var doctor = await db.Doctors.Include(d => d.SpecialtyId).FirstOrDefaultAsync(d => d.Id == id && d.IsActive);
+            var doctor = await db.Doctors.Include(d => d.Specialty).FirstOrDefaultAsync(d => d.Id == id && d.IsActive);
             if (doctor is null) return NotFound();
 
             var examinationTypes = await db.ExaminationTypes.Where(t => t.SpecialtyId == doctor.SpecialtyId && t.IsActive)

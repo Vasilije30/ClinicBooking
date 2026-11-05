@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
 import {getDoctors} from "../api";
 import type {DoctorListItem} from "../types";
+import type {DoctorDetails} from "../types";
+import {Link} from "react-router-dom";
 
 export default function DoctorsPage() {
     const [doctors, setDoctors] = useState<DoctorListItem[]>([]);
@@ -23,7 +25,10 @@ export default function DoctorsPage() {
             <ul>
                 {doctors.map((d) => (
                     <li key={d.id}>
-                        {d.title} {d.firstName} {d.lastName} ({d.specialtyName})
+                        <Link to={`/doctors/${d.id}`}>
+                            {d.title} {d.firstName} {d.lastName}
+                        </Link>{" "} 
+                        ({d.specialtyName})
                     </li>
                 ))}
             </ul>

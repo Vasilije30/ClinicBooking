@@ -1,18 +1,18 @@
 @host = http://localhost:5107
 
-GET {{host}}/api/specialties
+GET {{host}}/api/doctors
 
 ###
 
-POST {{host}}/api/doctors
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhNy1jMDcyLTdkNzUtYjc3NC04MmFmYjliZWNkMTciLCJlbWFpbCI6InZhc2lsaWpldjE4NUBnbWFpbC5jb20iLCJqdGkiOiJjMjI2NGFhOC1iMzc5LTQ3NTEtOTA2ZC04MjQxMGZmNTdhNGMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiUGF0aWVudCIsIkFkbWluIl0sImV4cCI6MTc5Mzg4MTIyMCwiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.NKmimPclFtDboe41tKOQgDxbvflGLOQPmL87aJ6-20Y
+PUT {{host}}/api/doctors/01a1abf4-59c6-7adc-9610-644fce0e137f
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhNy1jMDcyLTdkNzUtYjc3NC04MmFmYjliZWNkMTciLCJlbWFpbCI6InZhc2lsaWpldjE4NUBnbWFpbC5jb20iLCJqdGkiOiI5ZGJiMjVlOC0zMmZhLTQyODctOGE3YS1kMGQ3MGMyY2E1OWYiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiUGF0aWVudCIsIkFkbWluIl0sImV4cCI6MTc5Mzg4OTg1OCwiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.s45gkGqohw0WsOp9cBo5NQYgkWf7882NQtDKRCpwEyA
 Content-Type: application/json
 {
-    "userId": "01a19ddc-53d8-7962-98cf-886ccce11dc7",
-    "firstName":"Nikola",
-    "lastName":"Tesla",
+    "userId": "01a1abef-5a43-7ed6-8044-d71927746dc9",
+    "firstName":"Carlik",
+    "lastName":"Dzons",
     "title" : "dr" ,
-    "biography": "Zapravo je pametan",
+    "biography": "Decko je majstor :D",
     "specialtyId": "01a1ab71-dc19-78e1-8c2d-9db68017c28b"
 }
 
