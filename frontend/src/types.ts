@@ -26,3 +26,16 @@ export interface DoctorDetails{
     specialtyName: string;
     examinationTypes: ExaminationType[];
 }
+
+export interface Specialty{
+    id: string;
+    name:string;
+    description:string | null;
+}
+
+export interface RegisterData {
+    email:string;
+    password: string;
+    firstName: string;
+    lastName: string;
+}

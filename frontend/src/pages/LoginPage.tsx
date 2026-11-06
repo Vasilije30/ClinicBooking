@@ -1,0 +1,48 @@
+import {useState, type FormEvent } from "react";
+import {useNavigate } from "react-router-dom";
+import {useAuth} from "../context/AuthContext";
+
+export default function LoginPage() {
+    const {login} = useAuth(); 
+    const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState<string | null>(null);
+    const [submitting, setSubmitting] = useState(false);
+
+    async function handleSubmit(e: FormEvent) {
+        e.preventDefault();
+        setError(null);
+        setSubmitting(true);
+        try{
+            await login(email, password);
+            navigate("/");
+        } catch(err) {
+            setError(err instanceof Error ? err.message : "Greska pri prijavi.");
+        } finally {
+            setSubmitting(false);
+        }
+    }
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <h1>Prijava</h1>
+            <input type = "email"
+                placeholder="Email"
+                value = {email}
+                onChange={(e) => setEmail(e.target.value)}
+                required 
+            />
+            <input type="password"
+                placeholder="Lozinka"
+                value = {password}
+                onChange={(e) => setPassword(e.target.value)} 
+                required
+            />
+            <button type = "submit" disabled={submitting}>
+                {submitting ? "Prijava..." : "Prijavi se"}
+            </button>
+             {error && <p>{error}</p>}
+        </form>
+    );
+}
