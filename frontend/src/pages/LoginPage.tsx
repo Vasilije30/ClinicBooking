@@ -1,10 +1,12 @@
 import {useState, type FormEvent } from "react";
-import {useNavigate } from "react-router-dom";
+import {useNavigate, useLocation } from "react-router-dom";
 import {useAuth} from "../context/AuthContext";
 
 export default function LoginPage() {
     const {login} = useAuth(); 
     const navigate = useNavigate();
+    const location = useLocation();
+    const registered = location.state.registered === true;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
@@ -27,6 +29,7 @@ export default function LoginPage() {
     return (
         <form onSubmit={handleSubmit}>
             <h1>Prijava</h1>
+            {registered && <p>Uspesna registracija! Sada se mozete prijaviti.</p>}
             <input type = "email"
                 placeholder="Email"
                 value = {email}
