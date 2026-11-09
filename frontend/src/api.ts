@@ -1,5 +1,6 @@
 import {getToken} from "./auth";
-import type {DoctorListItem, DoctorDetails, Specialty, RegisterData} from "./types";
+import type {DoctorListItem, DoctorDetails, Specialty, RegisterData, SpecialtyInput, ExaminationTypeInput, ExaminationType, DoctorCreateInput, DoctorUpdateInput} from "./types";
+
 
 const DIRECTORY_URL = import.meta.env.VITE_DIRECTORY_URL;
 const IDENTITY_URL = import.meta.env.VITE_IDENTITY_URL;
@@ -27,6 +28,7 @@ async function request<T>(url:string, method = "GET", body?:unknown) : Promise<T
         }
         throw new Error(message);
     }
+    if(res.status === 204) return undefined as T;
     return res.json();
 }
 
@@ -54,3 +56,34 @@ export const login = (email: string, password: string) =>
 export const register = (data: RegisterData) =>
     request<{id: string ; email: string}>(`${IDENTITY_URL}/api/auth/register`, "POST", data);
 
+export const createSpecialty = (data: SpecialtyInput) =>
+    request<Specialty>(`${DIRECTORY_URL}/api/specialties`, "POST", data);
+
+export const updateSpecialty = (id: string, data:SpecialtyInput) =>
+    request<Specialty>(`${DIRECTORY_URL}/api/specialties/${id}`, "PUT", data);
+
+export const deleteSpecialty = (id: string) =>
+    request<void>(`${DIRECTORY_URL}/api/specialties/${id}`, "DELETE");
+
+export const getExaminationType = (specialtyId?: string) =>
+    get<ExaminationType[]>(
+        `${DIRECTORY_URL}/api/examination-types${specialtyId ? `?specialtyId=${specialtyId}`: ""}`
+    );
+
+export const createExaminationType = (data: ExaminationTypeInput) =>
+    request<ExaminationType>(`${DIRECTORY_URL}/api/examination-types`, "POST", data);
+
+export const updateExaminationType = (id: string, data: ExaminationTypeInput) =>
+    request<ExaminationType>(`${DIRECTORY_URL}/api/examination-types/${id}`, "PUT", data);
+
+export const deactivateExaminationType = (id: string) =>
+    request<ExaminationType>(`${DIRECTORY_URL}/api/examination-types/${id}`, "DELETE");
+
+export const createDoctor = (data: DoctorCreateInput) =>
+    request<DoctorDetails>(`${DIRECTORY_URL}/api/doctors`, "POST", data);
+
+export const updateDoctor = (id: string, data: DoctorUpdateInput) =>
+    request<DoctorDetails>(`${DIRECTORY_URL}/api/doctors/${id}`, "PUT", data);
+
+export const deactivateDoctor = (id: string) =>
+    request<void>(`${DIRECTORY_URL}/api/doctors/${id}/deactivate`, "PATCH");

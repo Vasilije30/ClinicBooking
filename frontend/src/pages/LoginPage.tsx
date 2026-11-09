@@ -6,7 +6,8 @@ export default function LoginPage() {
     const {login} = useAuth(); 
     const navigate = useNavigate();
     const location = useLocation();
-    const registered = location.state.registered === true;
+    const registered = location.state?.registered === true;
+    const from = location.state?.from ?? "/";
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
@@ -18,7 +19,7 @@ export default function LoginPage() {
         setSubmitting(true);
         try{
             await login(email, password);
-            navigate("/");
+            navigate(from);
         } catch(err) {
             setError(err instanceof Error ? err.message : "Greska pri prijavi.");
         } finally {

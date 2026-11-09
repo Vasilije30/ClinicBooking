@@ -1,15 +1,21 @@
-import {Link, Outlet} from "react-router-dom";
-import {useAuth} from "../context/AuthContext";
+import { Link, Outlet } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Layout() {
-    const {user, logout} = useAuth();
-    return (
+  const { user, logout } = useAuth();
+
+  return (
     <div>
       <nav>
         <Link to="/">Početna</Link> | <Link to="/doctors">Lekari</Link> |{" "}
         {user ? (
           <>
             <span>{user.email}</span> <button onClick={logout}>Odjava</button>
+            {user.roles.includes("Admin") && (
+              <>
+                {" "}| <Link to="/admin">Admin</Link>
+              </>
+            )}
           </>
         ) : (
           <>

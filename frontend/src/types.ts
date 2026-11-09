@@ -39,3 +39,27 @@ export interface RegisterData {
     firstName: string;
     lastName: string;
 }
+
+export interface SpecialtyInput {
+    name: string;
+    description: string;
+}
+
+export interface ExaminationTypeInput {
+    name : string;
+    description : string;
+    durationMinutes : number;
+    price : number;
+    specialtyId : string;
+}
+
+export interface DoctorCreateInput {
+    userId : string;
+    firstName : string;
+    lastName : string;
+    title : string;
+    biography: string;
+    specialtyId : string;
+}
+
+export type DoctorUpdateInput = Omit<DoctorCreateInput, "userId">;

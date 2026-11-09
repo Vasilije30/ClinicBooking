@@ -98,7 +98,7 @@ namespace Directory.Api.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpDelete("{id:guid}/deactivate")]
+        [HttpPatch("{id:guid}/deactivate")]
         public async Task<ActionResult> Deactivate(Guid id)
         {
             var doctor = await db.Doctors.FindAsync(id);
