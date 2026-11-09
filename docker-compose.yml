@@ -23,6 +23,18 @@ services:
     volumes:
       - directory-data:/var/lib/postgresql/data
 
+  scheduling-db:
+    image: postgres:16
+    container_name: scheduling-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: scheduling
+    ports:
+      - "5435:5432"
+    volumes:
+      - scheduling-data:/var/lib/postgresql/data
+
   pgadmin:
     image: dpage/pgadmin4
     environment:
@@ -34,5 +46,6 @@ services:
 volumes:
   identity-data:
   directory-data:
+  scheduling-data:
   
     
