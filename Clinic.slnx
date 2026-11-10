@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="src/Services/Directory/Directory.Api/Directory.Api.csproj" />
   <Project Path="src/Services/Identity/Identity.Api/Identity.Api.csproj" />
+  <Project Path="src/Services/Scheduling/Scheduling.Api.Tests/Scheduling.Api.Tests.csproj" />
   <Project Path="src/Services/Scheduling/Scheduling.Api/Scheduling.Api.csproj" />
 </Solution>

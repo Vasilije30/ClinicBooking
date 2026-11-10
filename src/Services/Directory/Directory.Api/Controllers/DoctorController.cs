@@ -110,6 +110,28 @@ namespace Directory.Api.Controllers
             return NoContent();
         }
 
+        [HttpGet("{id:guid}/summary")]
+        public async Task<ActionResult<DoctorSummaryResponse>> GetSummary(Guid id)
+        {
+            var doctor = await db.Doctors
+                .Where(d => d.Id == id)
+                .Select(d => new DoctorSummaryResponse(d.Id, d.UserId, d.SpecialtyId, d.IsActive))
+                .FirstOrDefaultAsync();
+
+            return doctor is null ? NotFound() : Ok(doctor);
+        }
+
+        [HttpGet("by-user/{userId:guid}")]
+        public async Task<ActionResult<DoctorSummaryResponse>> GetByUser(Guid userId)
+        {
+            var doctor = await db.Doctors
+                .Where(d => d.UserId == userId)
+                .Select(d => new DoctorSummaryResponse(d.Id, d.UserId, d.SpecialtyId, d.IsActive))
+                .FirstOrDefaultAsync();
+
+            return doctor is null ? NotFound() : Ok(doctor);
+        }
+
         private async Task<DoctorDetailsResponse> BuildDetails(Guid id)
         {
             var doctor = await db.Doctors.Include(d => d.Specialty).FirstAsync(d => d.Id == id);

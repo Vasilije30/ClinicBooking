@@ -1,6 +1,23 @@
-@Scheduling.Api_HostAddress = http://localhost:5190
+@host = http://localhost:5108
 
-GET {{Scheduling.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+PUT {{host}}/api/work-schedules
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhNy1jMDcyLTdkNzUtYjc3NC04MmFmYjliZWNkMTciLCJlbWFpbCI6InZhc2lsaWpldjE4NUBnbWFpbC5jb20iLCJqdGkiOiI5ZWI0Y2Y5OC04YzA0LTRlNDAtOTJjMi01ZGVjMmMyODkxNDEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiUGF0aWVudCIsIkFkbWluIl0sImV4cCI6MTc5NDMyMDY4OSwiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.J1qjRGQyBAscgmi9fPgDvKJqRK8c-_jnB2b4azGKggQ
+Content-Type: application/json
+
+{
+    "doctorId": "01a1ab80-77b2-777a-a709-071f4529ef36",
+    "dayOdWeek" : 1,
+    "startTime": "08:00:00",
+    "endTime": "15:00:00",
+    "breaks": [
+        {"startTime": "11:00:00", "endTime": "11:30:00"}
+    ]
+}
+###
+
+GET {{host}}/api/work-schedules/mine
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhNy1jMDcyLTdkNzUtYjc3NC04MmFmYjliZWNkMTciLCJlbWFpbCI6InZhc2lsaWpldjE4NUBnbWFpbC5jb20iLCJqdGkiOiI2MWJmOTUwNi0yZmMzLTRhM2UtYjI3Mi1lMzVkZGRiOTYwY2EiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiUGF0aWVudCIsIkFkbWluIl0sImV4cCI6MTc5NDMyMjEyNiwiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.YXN1J49B4Kurn5-ZekfdZqpFCn90iFNAuwcOUOIeplw
 
 ###
+GET {{host}}/api/work-schedules?doctorId=01a1ab80-77b2-777a-a709-071f4529ef36
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhNy1jMDcyLTdkNzUtYjc3NC04MmFmYjliZWNkMTciLCJlbWFpbCI6InZhc2lsaWpldjE4NUBnbWFpbC5jb20iLCJqdGkiOiI2MWJmOTUwNi0yZmMzLTRhM2UtYjI3Mi1lMzVkZGRiOTYwY2EiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiUGF0aWVudCIsIkFkbWluIl0sImV4cCI6MTc5NDMyMjEyNiwiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.YXN1J49B4Kurn5-ZekfdZqpFCn90iFNAuwcOUOIeplw

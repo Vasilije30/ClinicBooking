@@ -75,6 +75,9 @@ namespace Scheduling.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<TimeOnly>("EndTime")
+                        .HasColumnType("time without time zone");
+
                     b.Property<TimeOnly>("StartTime")
                         .HasColumnType("time without time zone");
 

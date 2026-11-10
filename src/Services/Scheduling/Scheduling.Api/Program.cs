@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Scheduling.Api.Clients;
 using Scheduling.Api.Data;
 using System.Text;
 
@@ -39,6 +40,11 @@ builder.Services.AddCors(options =>
         .WithOrigins("http://localhost:5173")
         .AllowAnyHeader()
         .AllowAnyMethod());
+});
+
+builder.Services.AddHttpClient<DirectoryClient>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["Services:Directory:BaseUrl"]!);
 });
 
 var app = builder.Build();
