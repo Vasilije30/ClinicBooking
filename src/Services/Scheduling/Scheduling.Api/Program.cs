@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scheduling.Api.Clients;
 using Scheduling.Api.Data;
+using Scheduling.Api.Services;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,6 +47,8 @@ builder.Services.AddHttpClient<DirectoryClient>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["Services:Directory:BaseUrl"]!);
 });
+
+builder.Services.AddScoped<SlotService>();
 
 var app = builder.Build();
 
