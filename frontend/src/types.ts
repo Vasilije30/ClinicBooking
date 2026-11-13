@@ -62,4 +62,26 @@ export interface DoctorCreateInput {
     specialtyId : string;
 }
 
+export interface Slot{
+    startAt: string;
+    endAt: string;
+}
+
+export interface Appointment {
+    id:string;
+    doctorId: string;
+    patientId: string;
+    examinationTypeId: string;
+    startAt: string;
+    endAt: string;
+    status: string;
+    cancelReason: string | null;
+}
+
+export interface CreateAppointmentInput {
+    doctorId : string;
+    examinationTypeId: string;
+    startAt: string;
+}
+
 export type DoctorUpdateInput = Omit<DoctorCreateInput, "userId">;

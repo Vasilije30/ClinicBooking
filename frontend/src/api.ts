@@ -1,9 +1,10 @@
 import {getToken} from "./auth";
-import type {DoctorListItem, DoctorDetails, Specialty, RegisterData, SpecialtyInput, ExaminationTypeInput, ExaminationType, DoctorCreateInput, DoctorUpdateInput} from "./types";
+import type {DoctorListItem, DoctorDetails, Specialty, RegisterData, SpecialtyInput, ExaminationTypeInput, ExaminationType, DoctorCreateInput, DoctorUpdateInput, Slot, Appointment, CreateAppointmentInput} from "./types";
 
 
 const DIRECTORY_URL = import.meta.env.VITE_DIRECTORY_URL;
 const IDENTITY_URL = import.meta.env.VITE_IDENTITY_URL;
+const SCHEDULING_URL = import.meta.env.VITE_SCHEDULING_URL;
 
 async function request<T>(url:string, method = "GET", body?:unknown) : Promise<T> {
     const headers: Record<string, string> = {};
@@ -87,3 +88,10 @@ export const updateDoctor = (id: string, data: DoctorUpdateInput) =>
 
 export const deactivateDoctor = (id: string) =>
     request<void>(`${DIRECTORY_URL}/api/doctors/${id}/deactivate`, "PATCH");
+
+export const getSlots = (doctorId: string, examinationTypeId: string, date:string) =>{
+    const params = new URLSearchParams({doctorId, examinationTypeId, date});
+    return get<Slot[]>(`${SCHEDULING_URL}/api/slots?${params}`);
+};
+export const createAppointment = (data: CreateAppointmentInput) =>
+    request<Appointment>(`${SCHEDULING_URL}/api/appointments`, "POST", data);

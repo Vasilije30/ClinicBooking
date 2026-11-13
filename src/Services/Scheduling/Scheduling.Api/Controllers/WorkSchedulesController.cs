@@ -7,13 +7,14 @@ using Scheduling.Api.Clients;
 using Scheduling.Api.Data;
 using Scheduling.Api.Dto;
 using Scheduling.Api.Models;
+using Scheduling.Api.Services;
 
 namespace Scheduling.Api.Controllers
 {
     [ApiController]
     [Route("api/work-schedules")]
     [Authorize(Roles = "Admin,Doctor")]
-    public class WorkSchedulesController(SchedulingDbContext db, DirectoryClient directory) : ControllerBase
+    public class WorkSchedulesController(SchedulingDbContext db, DirectoryClient directory, ScheduleConflictService conflicts) : ControllerBase
     {
         private Guid CurrentUserId => Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         private bool IsAdmin => User.IsInRole("Admin");
@@ -72,6 +73,17 @@ namespace Scheduling.Api.Controllers
             if (doctor is null || !doctor.IsActive)
                 return BadRequest(new { message = "Lekar ne postoji ili nije aktivan" });
 
+            var newWork = new LocalRange(request.StartTime, request.EndTime);
+            var newBreaks = request.Breaks
+                .Select(b => new LocalRange(b.StartTime, b.EndTime))
+                .ToList();
+
+            var affected = await conflicts.FindByScheduleAsync(doctor.Id, request.DayOfWeek, newWork, newBreaks);
+            if(affected.Count > 0)
+            {
+                return Conflict(new { message = "Izmena pogadja vec zakazane termine. Prvo ih otkazite.", appointments = affected });
+            }
+
             var schedule = await db.WorkSchedules
                 .Include(w => w.Breaks)
                 .FirstOrDefaultAsync(w => w.DoctorId == doctor.Id && w.DayOfWeek == request.DayOfWeek);
@@ -112,6 +124,14 @@ namespace Scheduling.Api.Controllers
 
             if (!IsAdmin && schedule.DoctorUserId != CurrentUserId)
                 return Forbid();
+
+            var affected = await conflicts.FindByScheduleAsync(schedule.DoctorId, schedule.DayOfWeek, null, []);
+            if(affected.Count > 0)
+                return Conflict(new
+                {
+                    message = "Postoje zakazani termini tog dana. Prvo ih otkažite.",
+                    appointments = affected
+                });
 
             db.WorkSchedules.Remove(schedule);
             await db.SaveChangesAsync();

@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import {getDoctor} from "../api";
 import type { DoctorDetails } from "../types";
+import BookingPanel from "../components/BookingPanel";
 
 export default function DoctorDetailsPage() {
     const {id} = useParams();
@@ -37,6 +38,7 @@ export default function DoctorDetailsPage() {
                     </li>
                 ))}
             </ul>
+            <BookingPanel doctorId={doctor.id} examinationTypes={doctor.examinationTypes} />
         </div>
     )
 }

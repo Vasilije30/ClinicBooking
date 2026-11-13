@@ -1,17 +1,15 @@
 @host = http://localhost:5108
 
 PUT {{host}}/api/work-schedules
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExY2FkNy02N2E1LTcyNTEtYjM2Ni1hMGIyZDcyZWU3MGIiLCJlbWFpbCI6InBhY2lqZW50QGdtYWlsLmNvbSIsImp0aSI6Ijc4OWY4YmY4LWY0MjQtNDk2Ny1hNWNiLWI0YWRhMDY4YzBlYSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlBhdGllbnQiLCJleHAiOjE3OTQ1NzI2OTUsImlzcyI6IkNsaW5pYy5JZGVudGl0eSIsImF1ZCI6IkNsaW5pYyJ9.p3LCgWK401xxN3IPIhRijNtGPJttjgAJ3unpIM0w14A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhNy1jMDcyLTdkNzUtYjc3NC04MmFmYjliZWNkMTciLCJlbWFpbCI6InZhc2lsaWpldjE4NUBnbWFpbC5jb20iLCJqdGkiOiI2NDExNzgwZS04MDUxLTRlMzUtYmZjNy1mZTYyMTU4NWUzOGEiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiUGF0aWVudCIsIkFkbWluIl0sImV4cCI6MTc5NDU4MzE2NSwiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.hzCxn3VYPGm64IcolV4_ghyDh-p0FK_JTmzewPt4FHE
 Content-Type: application/json
 
 {
     "doctorId": "01a1ab80-77b2-777a-a709-071f4529ef36",
-    "dayOdWeek" : 0,
+    "dayOfWeek" : 6,
     "startTime": "08:00:00",
     "endTime": "15:00:00",
-    "breaks": [
-        {"startTime": "11:00:00", "endTime": "11:30:00"}
-    ]
+    "breaks": []
 }
 ###
 
@@ -19,7 +17,7 @@ GET {{host}}/api/work-schedules/mine
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhNy1jMDcyLTdkNzUtYjc3NC04MmFmYjliZWNkMTciLCJlbWFpbCI6InZhc2lsaWpldjE4NUBnbWFpbC5jb20iLCJqdGkiOiI2MWJmOTUwNi0yZmMzLTRhM2UtYjI3Mi1lMzVkZGRiOTYwY2EiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiUGF0aWVudCIsIkFkbWluIl0sImV4cCI6MTc5NDMyMjEyNiwiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.YXN1J49B4Kurn5-ZekfdZqpFCn90iFNAuwcOUOIeplw
 
 ###
-GET {{host}}/api/work-schedules?doctorId=01a1ab80-77b2-777a-a709-071f4529ef36
+GET {{host}}/api/work-schedules
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhNy1jMDcyLTdkNzUtYjc3NC04MmFmYjliZWNkMTciLCJlbWFpbCI6InZhc2lsaWpldjE4NUBnbWFpbC5jb20iLCJqdGkiOiI2MWJmOTUwNi0yZmMzLTRhM2UtYjI3Mi1lMzVkZGRiOTYwY2EiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiUGF0aWVudCIsIkFkbWluIl0sImV4cCI6MTc5NDMyMjEyNiwiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.YXN1J49B4Kurn5-ZekfdZqpFCn90iFNAuwcOUOIeplw
 
 ###
@@ -47,3 +45,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhN
 ###
 GET {{host}}/api/time-offs/mine
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExYTZhNy1jMDcyLTdkNzUtYjc3NC04MmFmYjliZWNkMTciLCJlbWFpbCI6InZhc2lsaWpldjE4NUBnbWFpbC5jb20iLCJqdGkiOiI5Yzg0Mzg3My0zZGMzLTRkODMtYTJiOS1lOWYxYjEyYWU2NWMiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOlsiUGF0aWVudCIsIkFkbWluIl0sImV4cCI6MTc5NDU3MzE4MywiaXNzIjoiQ2xpbmljLklkZW50aXR5IiwiYXVkIjoiQ2xpbmljIn0.jhLlb2r9QBnqqQoJ8dtf2HOEN6BgrmSE3qOiLTGVWww
+
+###
+PUT {{host}}/api/appointments
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMWExY2FkNy02N2E1LTcyNTEtYjM2Ni1hMGIyZDcyZWU3MGIiLCJlbWFpbCI6InBhY2lqZW50QGdtYWlsLmNvbSIsImp0aSI6IjAxZjNkZjA2LTQwYzMtNDI5YS1hNGI0LWRhYzhkYWQ0YTkzNyIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IlBhdGllbnQiLCJleHAiOjE3OTQ1Nzc2NTQsImlzcyI6IkNsaW5pYy5JZGVudGl0eSIsImF1ZCI6IkNsaW5pYyJ9.JcXBbeB3-XofM6P4BCU-Vm3rJYVpimbxVpLz6zdhdEc
+Content-Type: application/json
+{
+    "doctorId" : "01a1ab80-77b2-777a-a709-071f4529ef36",
+    "examinationTypeId": "01a1ab73-64b1-7ad0-a0ab-a0ca3e75922f",
+    "startAt": "2026-11-16T08:00:00Z"
+}

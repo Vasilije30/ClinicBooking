@@ -48,6 +48,7 @@ builder.Services.AddHttpClient<DirectoryClient>(client =>
     client.BaseAddress = new Uri(builder.Configuration["Services:Directory:BaseUrl"]!);
 });
 
+builder.Services.AddScoped<ScheduleConflictService>();
 builder.Services.AddScoped<SlotService>();
 
 var app = builder.Build();
@@ -59,6 +60,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors();
 
 app.UseAuthorization();
 

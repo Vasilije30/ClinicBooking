@@ -7,13 +7,14 @@ using Scheduling.Api.Clients;
 using Scheduling.Api.Data;
 using Scheduling.Api.Dto;
 using Scheduling.Api.Models;
+using Scheduling.Api.Services;
 
 namespace Scheduling.Api.Controllers
 {
     [ApiController]
     [Route("api/time-offs")]
     [Authorize(Roles = "Admin,Doctor")]
-    public class TimeOffController(SchedulingDbContext db, DirectoryClient directory) : ControllerBase
+    public class TimeOffController(SchedulingDbContext db, DirectoryClient directory, ScheduleConflictService conflicts) : ControllerBase
     {
         public Guid CurrentUserId => Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
         private bool isAdmin => User.IsInRole("Admin");
@@ -83,6 +84,12 @@ namespace Scheduling.Api.Controllers
             if(doctor is null || !doctor.IsActive)
             {
                 return BadRequest(new { message = "Lekar ne postoji ili nije aktivan." });
+            }
+
+            var affected = await conflicts.FindByTimeOffAsync(doctor.Id, startAt, endAt);
+            if(affected.Count > 0)
+            {
+                return Conflict(new {message = "U tom periodu postoje zakazani termini. Prvo ih otkazite",  appointments = affected});
             }
 
             var timeOff = new TimeOff
