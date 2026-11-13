@@ -1,6 +1,6 @@
 @host = http://localhost:5107
 
-GET {{host}}/api/examination-types
+GET {{host}}/api/doctors
 
 ###
 
