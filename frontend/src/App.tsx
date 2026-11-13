@@ -10,6 +10,7 @@ import AdminPage from "./pages/AdminPage";
 import AdminSpecialtiesPage from "./pages/AdminSpecialtiesPage";
 import AdminExaminationTypesPage from "./pages/AdminExaminationTypesPage";
 import AdminDoctorsPage from "./pages/AdminDoctorsPage";
+import MyAppointmentsPage from "./pages/MyAppointmentsPage";
 
 export default function App() {
   return (
@@ -25,6 +26,9 @@ export default function App() {
           <Route path="/admin/specialties" element={<AdminSpecialtiesPage/>}/>
           <Route path="/admin/examination-types" element={<AdminExaminationTypesPage/>} />
           <Route path="/admin/doctors" element={<AdminDoctorsPage/>} />
+        </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route path="/my-appointments" element={<MyAppointmentsPage />} />
         </Route>
       </Route>
     </Routes>

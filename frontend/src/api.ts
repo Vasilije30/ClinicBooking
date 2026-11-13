@@ -95,3 +95,11 @@ export const getSlots = (doctorId: string, examinationTypeId: string, date:strin
 };
 export const createAppointment = (data: CreateAppointmentInput) =>
     request<Appointment>(`${SCHEDULING_URL}/api/appointments`, "POST", data);
+
+export const getMyAppointments = () =>
+    get<Appointment[]>(`${SCHEDULING_URL}/api/appointments/mine`);
+
+export const cancelAppointment = (id: string, reason?: string) => {
+    const query = reason ? `?reason=${encodeURIComponent(reason)}` : "";
+    return request<void>(`${SCHEDULING_URL}/api/appointments/${id}/cancel/${query}`, "POST");
+}
