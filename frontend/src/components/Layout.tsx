@@ -16,6 +16,11 @@ export default function Layout() {
                 {" "}| <Link to="/admin">Admin</Link>
               </>
             )}
+            {user.roles.includes("Doctor") && (
+              <>
+                {" "}| <Link to="/doctor/schedule">Moj raspored</Link>
+              </>
+            )}
           </>
         ) : (
           <>

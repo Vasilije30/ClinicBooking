@@ -1,5 +1,9 @@
 import {getToken} from "./auth";
-import type {DoctorListItem, DoctorDetails, Specialty, RegisterData, SpecialtyInput, ExaminationTypeInput, ExaminationType, DoctorCreateInput, DoctorUpdateInput, Slot, Appointment, CreateAppointmentInput} from "./types";
+import {type DoctorListItem, type DoctorDetails, type Specialty
+            ,type RegisterData, type SpecialtyInput, type ExaminationTypeInput
+            , type ExaminationType, type DoctorCreateInput, type DoctorUpdateInput
+            , type Slot, type Appointment, type CreateAppointmentInput
+            ,type SaveWorkScheduleInput, type WorkSchedule} from "./types";
 
 
 const DIRECTORY_URL = import.meta.env.VITE_DIRECTORY_URL;
@@ -103,3 +107,11 @@ export const cancelAppointment = (id: string, reason?: string) => {
     const query = reason ? `?reason=${encodeURIComponent(reason)}` : "";
     return request<void>(`${SCHEDULING_URL}/api/appointments/${id}/cancel/${query}`, "POST");
 }
+export const getMySchedule = () =>
+    get<WorkSchedule[]>(`${SCHEDULING_URL}/api/work-schedules/mine`);
+
+export const saveWorkSchedule = (data: SaveWorkScheduleInput) =>
+    request<WorkSchedule>(`${SCHEDULING_URL}/api/work-schedules`, "PUT", data);
+
+export const deleteWorkSchedule = (id: string) =>
+    request<void>(`${SCHEDULING_URL}/api/work-schedules/${id}`, "DELETE");

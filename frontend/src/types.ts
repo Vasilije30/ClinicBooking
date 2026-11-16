@@ -84,4 +84,25 @@ export interface CreateAppointmentInput {
     startAt: string;
 }
 
+export interface BreakDto {
+    startTime : string;
+    endTime : string;
+}
+
+export interface WorkSchedule {
+    id: string;
+    doctorId: string;
+    dayOfWeek: number;
+    startTime: string;
+    endTime: string;
+    breaks: BreakDto[];
+}
+
+export interface SaveWorkScheduleInput {
+    dayOfWeek: number;
+    startTime: string;
+    endTime: string;
+    breaks: BreakDto[];
+}
+
 export type DoctorUpdateInput = Omit<DoctorCreateInput, "userId">;
