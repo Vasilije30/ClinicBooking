@@ -27,6 +27,12 @@ export default function Layout() {
             <Link to="/login">Prijava</Link> | <Link to="/register">Registracija</Link>
           </>
         )}
+        {user?.roles.includes("Doctor") && (
+          <>
+            {" "}| <Link to="/doctor/appointments">Termini kod mene</Link>
+            {" "}| <Link to="/doctor/time-offs">Moja odsustva</Link>
+          </>
+        )}
       </nav>
       <main>
         <Outlet />

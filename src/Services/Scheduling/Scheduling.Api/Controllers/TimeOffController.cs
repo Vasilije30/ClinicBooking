@@ -45,7 +45,7 @@ namespace Scheduling.Api.Controllers
             var now = DateTime.UtcNow;
 
             var items = await db.TimeOffs
-                .Where(t => t.DoctorId == userId && t.EndAt > now)
+                .Where(t => t.DoctorUserId == userId && t.EndAt > now)
                 .OrderBy(t => t.StartAt)
                 .ToListAsync();
 

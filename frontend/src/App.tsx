@@ -12,6 +12,8 @@ import AdminExaminationTypesPage from "./pages/AdminExaminationTypesPage";
 import AdminDoctorsPage from "./pages/AdminDoctorsPage";
 import MyAppointmentsPage from "./pages/MyAppointmentsPage";
 import MySchedulePage from "./pages/MySchedulePage";
+import DoctorAppointmentsPage from "./pages/DoctorAppointmentsPage";
+import MyTimeOffPage from "./pages/MyTimeOffPage";
 
 export default function App() {
   return (
@@ -34,6 +36,8 @@ export default function App() {
         <Route element={<ProtectedRoute roles={["Doctor"]} />}>
           <Route path="/doctor/schedule" element={<MySchedulePage />} />
         </Route>
+        <Route path="/doctor/appointments" element={<DoctorAppointmentsPage/>}/>
+        <Route path="/doctor/time-offs" element={<MyTimeOffPage/>}/>
       </Route>
     </Routes>
   );

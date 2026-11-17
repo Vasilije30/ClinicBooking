@@ -3,7 +3,8 @@ import {type DoctorListItem, type DoctorDetails, type Specialty
             ,type RegisterData, type SpecialtyInput, type ExaminationTypeInput
             , type ExaminationType, type DoctorCreateInput, type DoctorUpdateInput
             , type Slot, type Appointment, type CreateAppointmentInput
-            ,type SaveWorkScheduleInput, type WorkSchedule} from "./types";
+            ,type SaveWorkScheduleInput, type WorkSchedule, type TimeOff
+            ,type CreateTimeOffInput} from "./types";
 
 
 const DIRECTORY_URL = import.meta.env.VITE_DIRECTORY_URL;
@@ -105,7 +106,7 @@ export const getMyAppointments = () =>
 
 export const cancelAppointment = (id: string, reason?: string) => {
     const query = reason ? `?reason=${encodeURIComponent(reason)}` : "";
-    return request<void>(`${SCHEDULING_URL}/api/appointments/${id}/cancel/${query}`, "POST");
+    return request<void>(`${SCHEDULING_URL}/api/appointments/${id}/cancel${query}`, "POST");
 }
 export const getMySchedule = () =>
     get<WorkSchedule[]>(`${SCHEDULING_URL}/api/work-schedules/mine`);
@@ -115,3 +116,16 @@ export const saveWorkSchedule = (data: SaveWorkScheduleInput) =>
 
 export const deleteWorkSchedule = (id: string) =>
     request<void>(`${SCHEDULING_URL}/api/work-schedules/${id}`, "DELETE");
+
+export const getDoctorAppointments = () =>
+    get<Appointment[]>(`${SCHEDULING_URL}/api/appointments/doctor`);
+
+export const getMyTimeOffs = () =>
+    get<TimeOff[]>(`${SCHEDULING_URL}/api/time-offs/mine`);
+
+export const createTimeOff = (data: CreateTimeOffInput) => 
+    request<TimeOff>(`${SCHEDULING_URL}/api/time-offs`, "POST", data);
+
+export const deleteTimeOff = (id: string) => 
+    request<void>(`${SCHEDULING_URL}/api/time-offs/${id}`, "DELETE");
+

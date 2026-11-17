@@ -105,7 +105,7 @@ namespace Scheduling.Api.Controllers
 
             var userId = CurrentUserId;
             var isPatient = appointment.PatientId == userId;
-            var isDoctor = appointment.DoctorId == userId;
+            var isDoctor = appointment.DoctorUserId == userId;
 
             if (!isPatient && !isDoctor && !isAdmin) 
                 return NotFound();
