@@ -15,13 +15,17 @@ import MySchedulePage from "./pages/MySchedulePage";
 import DoctorAppointmentsPage from "./pages/DoctorAppointmentsPage";
 import MyTimeOffPage from "./pages/MyTimeOffPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import ServicesPage from "./pages/ServicesPage";
+import PricingPage from "./pages/PricingPage";
 
 export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/usluge" element={<ServicesPage />} />
         <Route path="/doctors" element={<DoctorsPage />} />
+        <Route path="/cenovnik" element={<PricingPage />} />
         <Route path="/doctors/:id" element={<DoctorDetailsPage/>}/>
         <Route path="/login" element={<LoginPage/>} />
         <Route path="/register" element={<RegisterPage />}></Route>
@@ -31,7 +35,7 @@ export default function App() {
           <Route path="/admin/examination-types" element={<AdminExaminationTypesPage/>} />
           <Route path="/admin/doctors" element={<AdminDoctorsPage/>} />
         </Route>
-        <Route element={<ProtectedRoute />}>
+        <Route element={<ProtectedRoute roles={["Patient"]}/>}>
           <Route path="/my-appointments" element={<MyAppointmentsPage />} />
         </Route>
         <Route element={<ProtectedRoute roles={["Doctor"]} />}>

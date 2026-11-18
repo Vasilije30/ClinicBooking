@@ -49,6 +49,15 @@ namespace Identity.Api.Controllers
             if (await userManager.IsInRoleAsync(user, request.Role))
                 return NoContent();
 
+            if(request.Role == "Doctor" && await userManager.IsInRoleAsync(user, "Patient"))
+            {
+                var removed = await userManager.RemoveFromRoleAsync(user, "Patient");
+                if(!removed.Succeeded)
+                {
+                    return BadRequest(removed.Errors.Select(e => e.Description));
+                }
+            }
+
             var result = await userManager.AddToRoleAsync(user, request.Role);
             if (!result.Succeeded)
                 return BadRequest(string.Join("; ", result.Errors.Select(e => e.Description)));

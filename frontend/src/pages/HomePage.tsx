@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, CalendarCheck, CheckCircle2, Clock, Search, ShieldCheck, Stethoscope } from "lucide-react";
+import { ArrowRight, CalendarCheck, Search, ShieldCheck, Stethoscope } from "lucide-react";
 import { getSpecialties } from "../api";
-import { useAuth } from "../context/AuthContext";
-import { buttonClass } from "../components/styles";
 import type { Specialty } from "../types";
+
+/** Slika na vrhu početne strane. Fajl stavite u frontend/public/ pod ovim imenom. */
+const HERO_IMAGE = "/hero.jpg";
 
 const STEPS = [
   { icon: Search, title: "Izaberite lekara", text: "Pregledajte lekare po specijalnosti i pročitajte njihove biografije." },
@@ -13,8 +14,8 @@ const STEPS = [
 ];
 
 export default function HomePage() {
-  const { user } = useAuth();
   const [specialties, setSpecialties] = useState<Specialty[]>([]);
+  const [heroLoaded, setHeroLoaded] = useState<boolean | null>(null);
 
   useEffect(() => {
     getSpecialties()
@@ -23,78 +24,26 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="space-y-20 sm:space-y-28">
-      {/* Hero */}
-      <section className="grid items-center gap-12 pt-2 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-        <div className="animate-fade-up">
-          <span className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white px-3 py-1 text-xs font-semibold text-brand-700">
-            <span className="size-1.5 rounded-full bg-brand-500" />
-            Online zakazivanje pregleda
-          </span>
-          <h1 className="mt-6 font-display text-[2.6rem] leading-[1.05] font-medium tracking-tight sm:text-6xl">
-            Briga o zdravlju,
-            <br />
-            <span className="text-brand-700 italic">bez čekanja</span> u redu.
-          </h1>
-          <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-500">
-            Pronađite odgovarajućeg specijalistu, pogledajte slobodne termine i zakažite pregled za manje od minut.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link to="/doctors" className={buttonClass("primary", "lg")}>
-              Pronađi lekara <ArrowRight className="size-4" />
-            </Link>
-            <Link
-              to={user ? "/my-appointments" : "/register"}
-              className={buttonClass("secondary", "lg")}
-            >
-              {user ? "Moji termini" : "Napravi nalog"}
-            </Link>
+    <div>
+      {/* Velika slika preko cele širine prozora, odmah ispod headera */}
+      <section className="relative h-64 w-full overflow-hidden bg-ink-100 sm:h-96 lg:h-[30rem]">
+        {heroLoaded !== false && (
+          <img
+            src={HERO_IMAGE}
+            alt="Ordinacija"
+            className="size-full object-cover object-center"
+            onLoad={() => setHeroLoaded(true)}
+            onError={() => setHeroLoaded(false)}
+          />
+        )}
+        {heroLoaded === false && (
+          <div className="grid size-full place-items-center text-sm text-ink-400">
+            Mesto za sliku: dodajte fajl public{HERO_IMAGE}
           </div>
-        </div>
-
-        {/* Dekorativna kartica termina */}
-        <div className="relative mx-auto w-full max-w-md animate-fade-up [animation-delay:120ms]">
-          <div className="absolute -inset-4 -z-10 rotate-3 rounded-[2rem] bg-brand-700 bg-dots" />
-          <div className="rounded-3xl border border-ink-200/70 bg-white p-6 shadow-lift">
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-semibold text-ink-900">Slobodni termini</p>
-              <span className="rounded-full bg-ink-100 px-2.5 py-1 text-xs font-medium text-ink-600">Utorak, 18. nov</span>
-            </div>
-            <div className="mt-5 grid grid-cols-4 gap-2">
-              {["08:00", "08:30", "09:00", "09:30", "10:30", "11:00", "13:00", "13:30"].map((t, i) => (
-                <span
-                  key={t}
-                  className={
-                    i === 2
-                      ? "rounded-lg bg-brand-700 py-2 text-center text-[13px] font-semibold text-white shadow-sm"
-                      : i === 4 || i === 5
-                        ? "rounded-lg py-2 text-center text-[13px] text-ink-300 line-through"
-                        : "rounded-lg bg-brand-50 py-2 text-center text-[13px] font-medium text-brand-800"
-                  }
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-            <div className="mt-6 flex items-center gap-3 rounded-2xl bg-canvas p-4">
-              <span className="grid size-10 place-items-center rounded-xl bg-white text-brand-700 shadow-sm">
-                <Stethoscope className="size-5" />
-              </span>
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-ink-900">Kardiološki pregled</p>
-                <p className="flex items-center gap-1 text-xs text-ink-500">
-                  <Clock className="size-3" /> 09:00 – 09:30
-                </p>
-              </div>
-              <CheckCircle2 className="size-5 text-brand-600" />
-            </div>
-          </div>
-          <div className="absolute -bottom-6 -left-6 hidden rounded-2xl border border-ink-200/70 bg-white px-4 py-3 shadow-lift sm:block">
-            <p className="text-xs text-ink-500">Termin potvrđen</p>
-            <p className="font-display text-lg font-medium text-ink-900">za 40 sekundi</p>
-          </div>
-        </div>
+        )}
       </section>
+
+      <div className="mx-auto max-w-6xl space-y-20 px-4 py-12 sm:space-y-28 sm:px-6 sm:py-16">
 
       {/* Specijalnosti */}
       {specialties.length > 0 && (
@@ -150,6 +99,7 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+      </div>
     </div>
   );
 }

@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 import {
   CalendarCheck,
   CalendarClock,
   CalendarOff,
+  ClipboardList,
   LayoutDashboard,
   LogOut,
   Menu,
+  Receipt,
   Stethoscope,
   X,
   type LucideIcon,
@@ -37,9 +39,16 @@ export function Logo({ className }: { className?: string }) {
 export default function Layout() {
   const { user, logout } = useAuth();
   const [open, setOpen] = useState(false);
+  const isHome = useLocation().pathname === "/";
 
-  const items: NavItem[] = [{ to: "/doctors", label: "Lekari", icon: Stethoscope }];
-  if (user) items.push({ to: "/my-appointments", label: "Moji termini", icon: CalendarCheck });
+  const items: NavItem[] = [
+    { to: "/usluge", label: "Usluge", icon: ClipboardList },
+    { to: "/doctors", label: "Lekari", icon: Stethoscope },
+    { to: "/cenovnik", label: "Cenovnik", icon: Receipt },
+  ];
+  if (user?.roles.includes("Patient")){
+    items.push({ to: "/my-appointments", label: "Moji termini", icon: CalendarCheck });
+  } 
   if (user?.roles.includes("Doctor")) {
     items.push(
       { to: "/doctor/appointments", label: "Termini kod mene", icon: CalendarClock },
@@ -148,7 +157,8 @@ export default function Layout() {
         )}
       </header>
 
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12">
+      {/* Početna strana sama upravlja širinom (slika preko celog ekrana) */}
+      <main className={isHome ? "w-full flex-1" : "mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6 sm:py-12"}>
         <Outlet />
       </main>
 

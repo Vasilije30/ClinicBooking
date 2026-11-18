@@ -93,6 +93,7 @@ namespace Scheduling.Api.Controllers
             return Ok(items.Select(ToResponse).ToList());
         }
 
+        [Authorize(Roles = "Patient")]
         [HttpPost("{id:guid}/cancel")]
         public async Task<IActionResult> Cancel(Guid id, [FromQuery] string? reason)
         {

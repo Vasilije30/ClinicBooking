@@ -79,6 +79,9 @@ export default function BookingPanel({ doctorId, examinationTypes }: Props) {
     }
 
     const ready = typeId && date;
+    if(user && !user.roles.includes("Patient")) {
+        return <p>Zakazivanje je dostupno samo pacijentima.</p>
+    }
 
     return (
         <Card>
