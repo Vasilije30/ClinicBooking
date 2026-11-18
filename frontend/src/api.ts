@@ -4,7 +4,8 @@ import {type DoctorListItem, type DoctorDetails, type Specialty
             , type ExaminationType, type DoctorCreateInput, type DoctorUpdateInput
             , type Slot, type Appointment, type CreateAppointmentInput
             ,type SaveWorkScheduleInput, type WorkSchedule, type TimeOff
-            ,type CreateTimeOffInput} from "./types";
+            ,type CreateTimeOffInput,
+            type UserSummary} from "./types";
 
 
 const DIRECTORY_URL = import.meta.env.VITE_DIRECTORY_URL;
@@ -129,3 +130,8 @@ export const createTimeOff = (data: CreateTimeOffInput) =>
 export const deleteTimeOff = (id: string) => 
     request<void>(`${SCHEDULING_URL}/api/time-offs/${id}`, "DELETE");
 
+export const searchUser = (email: string) =>
+    get<UserSummary[]>(`${IDENTITY_URL}/api/users?email=${encodeURIComponent(email)}`);
+
+export const addUserRole = (userId: string, role: string) =>
+    request<void>(`${IDENTITY_URL}/api/users/${userId}/roles`, "POST", {role});

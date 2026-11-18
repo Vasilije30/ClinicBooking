@@ -1,111 +1,105 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@import "tailwindcss";
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+/*
+ * Dizajn tokeni. Sve boje i fontovi se menjaju ovde,
+ * a koriste se kao Tailwind klase: bg-brand-700, text-ink-500, font-display...
+ */
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Glavna boja: duboka teget-zelena */
+  --color-brand-50: #eff8f6;
+  --color-brand-100: #d7eee8;
+  --color-brand-200: #b0ddd2;
+  --color-brand-300: #7fc4b5;
+  --color-brand-400: #4ea695;
+  --color-brand-500: #2f8a7a;
+  --color-brand-600: #227062;
+  --color-brand-700: #1a6158;
+  --color-brand-800: #174d47;
+  --color-brand-900: #15403b;
+  --color-brand-950: #0a2623;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
+  /* Neutralna, blago topla siva */
+  --color-ink-50: #f7f7f5;
+  --color-ink-100: #eeeeea;
+  --color-ink-200: #dfdfd9;
+  --color-ink-300: #c2c3bc;
+  --color-ink-400: #979991;
+  --color-ink-500: #6f7169;
+  --color-ink-600: #565851;
+  --color-ink-700: #44463f;
+  --color-ink-800: #2c2e29;
+  --color-ink-900: #1b1c19;
+
+  /* Akcenat: topli koral, koristi se štedljivo */
+  --color-coral-100: #fde6dc;
+  --color-coral-400: #f08a63;
+  --color-coral-500: #e46f45;
+
+  --color-canvas: #f6f4ee;
+
+  --shadow-card: 0 1px 2px rgb(27 28 25 / 0.04), 0 8px 24px -12px rgb(27 28 25 / 0.12);
+  --shadow-lift: 0 2px 4px rgb(27 28 25 / 0.04), 0 18px 40px -16px rgb(23 77 71 / 0.28);
+
+  --animate-fade-up: fade-up 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
   }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  body {
+    @apply bg-canvas font-sans text-ink-700 antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply text-ink-900;
+  }
+
+  ::selection {
+    @apply bg-brand-200 text-brand-950;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-600;
+  }
+
+  /* Ikonica kalendara/sata u native inputima */
+  input::-webkit-calendar-picker-indicator {
+    @apply cursor-pointer opacity-60 hover:opacity-100;
   }
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
-}
-
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+@layer utilities {
+  /* Suptilna tačkasta pozadina za dekorativne površine */
+  .bg-dots {
+    background-image: radial-gradient(rgb(255 255 255 / 0.14) 1px, transparent 1px);
+    background-size: 18px 18px;
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
 }

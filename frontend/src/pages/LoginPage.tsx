@@ -1,9 +1,11 @@
-import {useState, type FormEvent } from "react";
-import {useNavigate, useLocation } from "react-router-dom";
-import {useAuth} from "../context/AuthContext";
+import { useState, type FormEvent } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import AuthShell from "../components/AuthShell";
+import { Alert, Button, Field, Input } from "../components/ui";
 
 export default function LoginPage() {
-    const {login} = useAuth(); 
+    const { login } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const registered = location.state?.registered === true;
@@ -17,36 +19,57 @@ export default function LoginPage() {
         e.preventDefault();
         setError(null);
         setSubmitting(true);
-        try{
+        try {
             await login(email, password);
             navigate(from);
-        } catch(err) {
-            setError(err instanceof Error ? err.message : "Greska pri prijavi.");
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Greška pri prijavi.");
         } finally {
             setSubmitting(false);
         }
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h1>Prijava</h1>
-            {registered && <p>Uspesna registracija! Sada se mozete prijaviti.</p>}
-            <input type = "email"
-                placeholder="Email"
-                value = {email}
-                onChange={(e) => setEmail(e.target.value)}
-                required 
-            />
-            <input type="password"
-                placeholder="Lozinka"
-                value = {password}
-                onChange={(e) => setPassword(e.target.value)} 
-                required
-            />
-            <button type = "submit" disabled={submitting}>
-                {submitting ? "Prijava..." : "Prijavi se"}
-            </button>
-             {error && <p>{error}</p>}
-        </form>
+        <AuthShell
+            title="Dobrodošli nazad"
+            subtitle="Prijavite se da biste zakazali i pratili svoje termine."
+            footer={
+                <>
+                    Nemate nalog?{" "}
+                    <Link to="/register" className="font-semibold text-brand-700 hover:text-brand-900">
+                        Registrujte se
+                    </Link>
+                </>
+            }
+        >
+            <form onSubmit={handleSubmit} className="space-y-4">
+                {registered && <Alert tone="success">Uspešna registracija! Sada se možete prijaviti.</Alert>}
+                {error && <Alert tone="error">{error}</Alert>}
+
+                <Field label="Email">
+                    <Input
+                        type="email"
+                        placeholder="ime@primer.com"
+                        autoComplete="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                </Field>
+                <Field label="Lozinka">
+                    <Input
+                        type="password"
+                        placeholder="••••••••"
+                        autoComplete="current-password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                </Field>
+                <Button type="submit" size="lg" loading={submitting} className="w-full">
+                    {submitting ? "Prijava..." : "Prijavi se"}
+                </Button>
+            </form>
+        </AuthShell>
     );
 }

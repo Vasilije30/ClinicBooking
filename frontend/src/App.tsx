@@ -14,6 +14,7 @@ import MyAppointmentsPage from "./pages/MyAppointmentsPage";
 import MySchedulePage from "./pages/MySchedulePage";
 import DoctorAppointmentsPage from "./pages/DoctorAppointmentsPage";
 import MyTimeOffPage from "./pages/MyTimeOffPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
   return (
@@ -35,9 +36,10 @@ export default function App() {
         </Route>
         <Route element={<ProtectedRoute roles={["Doctor"]} />}>
           <Route path="/doctor/schedule" element={<MySchedulePage />} />
+          <Route path="/doctor/appointments" element={<DoctorAppointmentsPage/>}/>
+          <Route path="/doctor/time-offs" element={<MyTimeOffPage/>}/>
         </Route>
-        <Route path="/doctor/appointments" element={<DoctorAppointmentsPage/>}/>
-        <Route path="/doctor/time-offs" element={<MyTimeOffPage/>}/>
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   );

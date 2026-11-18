@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
-import {
-  cancelAppointment, getDoctors, getExaminationType, getMyAppointments,
-  updateSpecialty,
-} from "../api";
-import { formatDateTime } from "../format";
+import { Link } from "react-router-dom";
+import { CalendarPlus, CalendarX2, History } from "lucide-react";
+import { cancelAppointment, getDoctors, getExaminationType, getMyAppointments } from "../api";
+import AppointmentItem from "../components/AppointmentItem";
+import { Alert, Card, EmptyState, LoadingState, PageHeader, SectionTitle } from "../components/ui";
+import { buttonClass } from "../components/styles";
 import type { Appointment } from "../types";
-
-const STATUS_LABELS: Record<string, string> = {
-    Booked: "Zakazan",
-    Cancelled: "Otkazan",
-    Completed: "Zavrsen",
-};
 
 export default function MyAppointmentsPage() {
     const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -21,25 +16,23 @@ export default function MyAppointmentsPage() {
     const [actionError, setActionError] = useState<string | null>(null);
     const [reloadKey, setReloadKey] = useState(0);
 
-    useEffect(() =>{
+    useEffect(() => {
         let ignore = false;
 
         Promise.all([getMyAppointments(), getDoctors(), getExaminationType()])
             .then(([apps, doctors, types]) => {
-                if(ignore) return;
+                if (ignore) return;
                 setAppointments(apps);
                 setDoctorNames(
-                    Object.fromEntries(
-                        doctors.map((d) => [d.id, `${d.title} ${d.firstName} ${d.lastName}`])
-                    )
+                    Object.fromEntries(doctors.map((d) => [d.id, `${d.title} ${d.firstName} ${d.lastName}`]))
                 );
                 setTypeNames(Object.fromEntries(types.map((t) => [t.id, t.name])));
             })
             .catch((e: Error) => {
-                if(!ignore) setLoadError(e.message);
+                if (!ignore) setLoadError(e.message);
             })
-            .finally(() =>{
-                if(!ignore) setLoading(false);
+            .finally(() => {
+                if (!ignore) setLoading(false);
             });
 
         return () => {
@@ -47,17 +40,16 @@ export default function MyAppointmentsPage() {
         };
     }, [reloadKey]);
 
-
     async function handleCancel(id: string) {
-        const reason = window.prompt("Razlog otkazivanja(nije obavezno):");
-        if(reason === null) return;
+        const reason = window.prompt("Razlog otkazivanja (nije obavezno):");
+        if (reason === null) return;
 
         setActionError(null);
-        try{
-            await cancelAppointment(id, reason)
-            setReloadKey((k) => k+1);
-        }catch(err) {
-            setActionError(err instanceof Error ? err.message: "Greska pri otkazivanju.");
+        try {
+            await cancelAppointment(id, reason);
+            setReloadKey((k) => k + 1);
+        } catch (err) {
+            setActionError(err instanceof Error ? err.message : "Greška pri otkazivanju.");
         }
     }
 
@@ -65,35 +57,74 @@ export default function MyAppointmentsPage() {
     const upcoming = appointments
         .filter((a) => a.status === "Booked" && new Date(a.endAt).getTime() > now)
         .sort((a, b) => a.startAt.localeCompare(b.startAt));
-    const history = appointments.filter((a) => !upcoming.includes(a));
+    const history = appointments
+        .filter((a) => !upcoming.includes(a))
+        .sort((a, b) => b.startAt.localeCompare(a.startAt));
 
-    function renderRow(a: Appointment, canCancel : boolean) {
-        return (
-            <li key={a.id}>
-                {formatDateTime(a.startAt)}, {doctorNames[a.doctorId] ?? "Nepoznat lekar"},{" "}
-                {typeNames[a.examinationTypeId] ?? "Nepoznata vrsta pregleda"} (
-                {STATUS_LABELS[a.status] ?? a.status})
-                {a.cancelReason && ` - razlog: ${a.cancelReason}`}{" "}
-                {canCancel && <button onClick={() => handleCancel(a.id)}>Otkaži</button>}
-            </li>
-        );
-    }
-    if(loading) return <p>Ucitavanje...</p>
-    if(loadError) return <p>{loadError}</p>
+    if (loading) return <LoadingState />;
+    if (loadError) return <Alert tone="error">{loadError}</Alert>;
 
     return (
         <div>
-            <h2>Moji termini</h2>
+            <PageHeader
+                eyebrow="Pacijent"
+                title="Moji termini"
+                description="Pregled zakazanih, prethodnih i otkazanih termina."
+                actions={
+                    <Link to="/doctors" className={buttonClass("primary")}>
+                        <CalendarPlus className="size-4" /> Zakaži pregled
+                    </Link>
+                }
+            />
 
-            {actionError && <p>{actionError}</p>}
+            {actionError && <Alert tone="error" className="mb-6">{actionError}</Alert>}
 
-            <h2>Predstojeci</h2>
-            {upcoming.length === 0 && <p>Nemate predstojecih termina.</p>}
-            <ul>{upcoming.map((a) => renderRow(a, true))}</ul>
+            <section>
+                <SectionTitle title="Predstojeći" count={upcoming.length} />
+                {upcoming.length === 0 ? (
+                    <Card>
+                        <EmptyState
+                            icon={CalendarX2}
+                            title="Nemate predstojećih termina"
+                            description="Kada zakažete pregled, pojaviće se ovde."
+                            action={<Link to="/doctors" className={buttonClass("secondary")}>Pronađi lekara</Link>}
+                        />
+                    </Card>
+                ) : (
+                    <ul className="space-y-3">
+                        {upcoming.map((a) => (
+                            <AppointmentItem
+                                key={a.id}
+                                appointment={a}
+                                examinationName={typeNames[a.examinationTypeId] ?? "Nepoznata vrsta pregleda"}
+                                person={doctorNames[a.doctorId] ?? "Nepoznat lekar"}
+                                onCancel={() => handleCancel(a.id)}
+                            />
+                        ))}
+                    </ul>
+                )}
+            </section>
 
-            <h2>Prethodni i otkazani</h2>
-            {history.length === 0 && <p>Nemate prethodnih termina</p>}
-            <ul>{history.map((a) => renderRow(a, false))}</ul>
+            <section className="mt-12">
+                <SectionTitle title="Prethodni i otkazani" count={history.length} />
+                {history.length === 0 ? (
+                    <p className="flex items-center gap-2 text-sm text-ink-500">
+                        <History className="size-4" /> Nemate prethodnih termina.
+                    </p>
+                ) : (
+                    <ul className="space-y-3">
+                        {history.map((a) => (
+                            <AppointmentItem
+                                key={a.id}
+                                muted
+                                appointment={a}
+                                examinationName={typeNames[a.examinationTypeId] ?? "Nepoznata vrsta pregleda"}
+                                person={doctorNames[a.doctorId] ?? "Nepoznat lekar"}
+                            />
+                        ))}
+                    </ul>
+                )}
+            </section>
         </div>
     );
 }

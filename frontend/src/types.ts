@@ -105,4 +105,26 @@ export interface SaveWorkScheduleInput {
     breaks: BreakDto[];
 }
 
+export interface TimeOff {
+    id: string;
+    doctorId: string;
+    startAt: string;
+    endAt: string;
+    reason: string | null;
+}
+
+export interface CreateTimeOffInput {
+    startAt: string;
+    endAt: string;
+    reason: string;
+}
+
+export interface UserSummary {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    roles: string[];
+}
+
 export type DoctorUpdateInput = Omit<DoctorCreateInput, "userId">;
