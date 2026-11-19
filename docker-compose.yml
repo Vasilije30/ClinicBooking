@@ -1,5 +1,75 @@
 services:
+  identity-api:
+    build:
+      context: .
+      dockerfile: src/Services/Identity/Identity.Api/Dockerfile
+    container_name: identity-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=identity-db;Port=5432;Database=identity;Username=postgres;Password=postgres
+      Jwt__Key: ${JWT_KEY}
+    ports:
+      - "5106:8080"
+    depends_on:
+      identity-db:
+        condition: service_healthy
+
+  directory-api:
+    build:
+      context: .
+      dockerfile: src/Services/Directory/Directory.Api/Dockerfile
+    container_name: directory-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=directory-db;Port=5432;Database=directory;Username=postgres;Password=postgres
+      Jwt__Key: ${JWT_KEY}
+    ports:
+      - "5107:8080"
+    depends_on:
+      directory-db:
+        condition: service_healthy
+
+  scheduling-api:
+    build:
+      context: .
+      dockerfile: src/Services/Scheduling/Scheduling.Api/Dockerfile
+    container_name: scheduling-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: Host=scheduling-db;Port=5432;Database=scheduling;Username=postgres;Password=postgres
+      Jwt__Key: ${JWT_KEY}
+      Services__Directory__BaseUrl: http://directory-api:8080/
+      RabbitMq__Host: rabbitmq
+    ports:
+      - "5108:8080"
+    depends_on:
+      scheduling-db:
+        condition: service_healthy
+      directory-api:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+
+  notifications-worker:
+    build:
+      context: .
+      dockerfile: src/Services/Notifications/Notifications.Worker/Dockerfile
+    container_name: notifications-worker
+    environment:
+      DOTNET_ENVIRONMENT: Development
+      RabbitMq__Host: rabbitmq
+      Email__Host: mailpit
+      Email__Port: "1025"
+    depends_on:
+      - rabbitmq
+      - mailpit
+
   identity-db:
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     image: postgres:16
     container_name: identity-db
     environment:
@@ -12,6 +82,11 @@ services:
       - identity-data:/var/lib/postgresql/data
   
   directory-db:
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     image: postgres:16
     container_name: directory-db
     environment:
@@ -24,6 +99,11 @@ services:
       - directory-data:/var/lib/postgresql/data
 
   scheduling-db:
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     image: postgres:16
     container_name: scheduling-db
     environment:
@@ -56,6 +136,16 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
       - "5050:80"
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - identity-api
+      - directory-api
+      - scheduling-api
 
 volumes:
   identity-data:

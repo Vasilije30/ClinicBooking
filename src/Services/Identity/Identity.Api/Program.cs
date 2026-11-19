@@ -49,8 +49,11 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+
 using (var scope = app.Services.CreateScope())
 {
+    scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
     await RoleSeeder.SeedAsync(scope.ServiceProvider);
 }
 // Configure the HTTP request pipeline.
