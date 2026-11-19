@@ -8,13 +8,15 @@ using Scheduling.Api.Dto;
 using Scheduling.Api.Models;
 using Scheduling.Api.Services;
 using System.Linq;
+using Contracts;
+using MassTransit;
 
 namespace Scheduling.Api.Controllers
 {
     [ApiController]
     [Route("api/appointments")]
     [Authorize]
-    public class AppointmentController(SchedulingDbContext db, DirectoryClient directory, SlotService slotService) : ControllerBase
+    public class AppointmentController(SchedulingDbContext db, DirectoryClient directory, SlotService slotService, IPublishEndpoint publish, ILogger<AppointmentController> logger) : ControllerBase
     {
         private const int minCancelHours = 24;
 
@@ -56,6 +58,7 @@ namespace Scheduling.Api.Controllers
                 DoctorId = doctor.Id,
                 DoctorUserId = doctor.UserId,
                 PatientId = CurrentUserId,
+                PatientEmail = User.FindFirstValue(ClaimTypes.Email) ?? "",
                 ExaminationTypeId = type.Id,
                 StartAt = slot.StartAt,
                 EndAt = slot.EndAt,
@@ -64,6 +67,14 @@ namespace Scheduling.Api.Controllers
             db.Appointments.Add(appointment);
             await db.SaveChangesAsync();
             await tx.CommitAsync();
+            try
+            {
+                await publish.Publish(new AppointmentBooked(appointment.Id, appointment.DoctorId, appointment.PatientEmail, type.Name, appointment.StartAt, appointment.EndAt));
+            }
+            catch(Exception ex)
+            {
+                logger.LogError(ex, "Objava AppointmentBooked nije uspela za termin {Id}", appointment.Id);
+            }
 
             return StatusCode(StatusCodes.Status201Created, ToResponse(appointment));
         }

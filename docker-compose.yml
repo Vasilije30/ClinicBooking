@@ -34,6 +34,20 @@ services:
       - "5435:5432"
     volumes:
       - scheduling-data:/var/lib/postgresql/data
+  
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  
+  mailpit:
+    image: axllent/mailpit
+    container_name: mailpit
+    ports:
+      - "1025:1025"
+      - "8025:8025"
 
   pgadmin:
     image: dpage/pgadmin4

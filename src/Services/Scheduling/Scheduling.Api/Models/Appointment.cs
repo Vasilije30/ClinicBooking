@@ -6,6 +6,7 @@
         public Guid DoctorId { get; set; }
         public Guid DoctorUserId { get; set; }
         public Guid PatientId { get; set; }
+        public string PatientEmail { get; set; } = string.Empty;
         public Guid ExaminationTypeId { get; set; }
         public DateTime StartAt { get; set; }
         public DateTime EndAt { get; set; }

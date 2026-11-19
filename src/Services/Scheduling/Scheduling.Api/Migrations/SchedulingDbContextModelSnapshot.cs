@@ -47,6 +47,10 @@ namespace Scheduling.Api.Migrations
                     b.Property<Guid>("ExaminationTypeId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("PatientEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uuid");
 

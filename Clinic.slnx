@@ -1,6 +1,8 @@
 <Solution>
+  <Project Path="src/BuildingBlocks/Contracts/Contracts.csproj" />
   <Project Path="src/Services/Directory/Directory.Api/Directory.Api.csproj" />
   <Project Path="src/Services/Identity/Identity.Api/Identity.Api.csproj" />
+  <Project Path="src/Services/Notifications/Notifications.Worker/Notifications.Worker.csproj" />
   <Project Path="src/Services/Scheduling/Scheduling.Api.Tests/Scheduling.Api.Tests.csproj" />
   <Project Path="src/Services/Scheduling/Scheduling.Api/Scheduling.Api.csproj" />
 </Solution>
