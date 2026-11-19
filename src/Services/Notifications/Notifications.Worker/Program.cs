@@ -7,6 +7,7 @@ var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<AppointmentBookedConsumer>();
+    x.AddConsumer<AppointmentCancelledConsumer>();
 
     x.UsingRabbitMq((context, cfg) =>
     {

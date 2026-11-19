@@ -19,7 +19,7 @@ public class EmailSender(IConfiguration config)
         message.Body = new TextPart("plain") { Text = body };
 
         using var client = new SmtpClient();
-        await client.ConnectAsync(config["Email:Host"], int.Parse(config["Email:Port"]!), SecureSocketOptions.None);
+        await client.ConnectAsync(config["Email:Host"]!, int.Parse(config["Email:Port"]!), SecureSocketOptions.None);
         await client.SendAsync(message);
         await client.DisconnectAsync(true);
         

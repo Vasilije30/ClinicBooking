@@ -134,6 +134,15 @@ namespace Scheduling.Api.Controllers
 
             await db.SaveChangesAsync();
 
+            try
+            {
+                await publish.Publish(new AppointmentCancelled(appointment.Id, appointment.DoctorId, appointment.PatientEmail, appointment.StartAt, reason, isPatient));
+            }
+            catch (Exception ex) 
+            {
+                logger.LogError(ex, "Objava appointmentCancelled nije uspela za termin {Id}", appointment.Id);
+            }
+
             return NoContent();
 
         }
